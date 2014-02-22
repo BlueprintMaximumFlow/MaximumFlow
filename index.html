@@ -2,12 +2,11 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <link rel="stylesheet" href="ext-4.2.1.883/resources/css/ext-all.css"/>
 </head>
 
 <body>
-    <script src="ext-4.2.1.883/ext-all-debug.js"></script>
-    <!--<script src="main.js"></script>-->
+    <script src="jquery/jquery-2.1.0.min.js"></script>
+    <script src="main.js"></script>
     <div id="bigwrapper">
         <div id="leftbar">
             <div id="name">
@@ -21,11 +20,13 @@
         <div id="topbar">
             <button type="button" id="generate" onClick="alert('Generating awesome flow');">Generate Flow</button>
             <button type="button" id="compile" onClick="alert('Compiling awesome flow');">Compile Flow</button>
+            <button type="button" id="display" onClick="displayNodes()">Print nodes</button>
+            <button type="button" id="toggle" onClick="toggleNode()">Toggle</button>            
         </div>
 
         <!-- Display area for the graph -->
         <div id="graph">
-            Graph goes here
+            <canvas id="canvas" width="619px" height="539px"></canvas>
         </div>
     </div>
 </body>

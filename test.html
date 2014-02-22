@@ -60,7 +60,7 @@
 				}else{
 				var x = e.pageX - this.offsetLeft;
                 	var y = e.pageY - this.offsetTop;
-				var minDist = 100000; 
+				var minDits = 100000; 
 				 
 				for(var i = 0; i < nodes.length; i++){
 					
@@ -77,10 +77,12 @@
 					console.log(nodes[index].x + " " + nodes[index].y);
 					console.log(nodes[index2].x + " " + nodes[index2].y);
 				var c = document.getElementById	("special");
-		var ctx = c.getContext("2d");
-		ctx.moveTo(nodes[index].x,nodes[index].y);
-		ctx.lineTo(nodes[index2].x,nodes[index2].y);
-		ctx.stroke();
+				var ctx = c.getContext("2d");
+				ctx.moveTo(nodes[index].x,nodes[index].y);
+				ctx.lineTo(nodes[index2].x,nodes[index2].y);
+				ctx.stroke();
+					var weight = prompt("Enter weight carried");
+					console.log("This line's weight is: " + weight);
 				}
 
 			}
