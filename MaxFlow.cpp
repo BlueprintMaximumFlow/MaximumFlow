@@ -162,6 +162,5 @@ int main(){
            cout<<endl; 
        }
        cout<<endl<<"The maximum flow in this network is "<<info.inflow[info.num]<<endl<<endl;
-       system("pause");
        return 0;
 } 

@@ -2,7 +2,8 @@
     height: 640px;
     width: 720px;
     border: 1px solid black;
-    float: left;
+    left: 50px;
+    top: 50px;
     position: relative;
 }
 
@@ -41,4 +42,13 @@
     position: absolute;
     top: -1px;
     left: -1px;
+    text-align: center;
+}
+
+#generate {
+
+}
+
+#compile {
+
 }
