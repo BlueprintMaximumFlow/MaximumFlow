@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #special {
+            width: 500px;
+            height: 500px;
+            border: 1px ridge green;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="jquery/jquery-2.1.0.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script>
+        var count = 0; 
+        var nodes = []
+
+        jQuery(document).ready(function() {
+            $("#special").attr("height", $("#special").css("height"));
+            $("#special").attr("width", $("#special").css("width"));
+
+            $("#special").click(function(e) {
+                var x = e.pageX - this.offsetLeft;
+                var y = e.pageY - this.offsetTop;
+
+                var ctx = this.getContext("2d");
+                ctx.beginPath();
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                count += 1;
+                nodes.push({x: x, y: y, count: count});
+
+                $("#status2").html(x + ", " + y);
+            })
+        });
+
+        function displayNodes() {
+            for (var i = 0; i < nodes.length; i++) {
+                console.log(nodes[i])
+            }
+        }
+    </script>
+
+    <h2 id="status2">0, 0</h2>
+    <button type="button" onClick="displayNodes()">Print nodes in console</button>
+    <canvas id="special">Not supported</canvas>
+</body>
+</html>

@@ -1,22 +1,30 @@
 Ext.onReady(function() {
 
-	var cont = new Ext.Viewport(		{
-			layout: "column",
-			renderTo: Ext.getBody(),
-			items: [
-				{
-					xtype: "component",
-					renderTo: Ext.getBody(),
-					html: "Hello",
-					style: "border: 1px solid black",
-					columnWidth: 0.75
-				}, 
-				{
-					xtype: "component",
-					renderTo: Ext.getBody(),
-					html: "World",
-					style: "border: 1px solid black",
-					columnWidth: 0.25
-				}]
-	});
+    var cont = new Ext.Viewport({
+        layout: {
+            type: "hbox",
+            align: "stretch"
+        },
+        items: [
+            {
+                flex: 1,
+                items: {
+                    xtype: "button",
+                    text: "Add Tab",
+                    handler: function(btn) {
+                        btn.up("viewport").down("tabpanel").add({
+                            xtype: "panel",
+                            title: "New Tab",
+                            html: "My new tab",
+                            closable: true
+                        })
+                    }
+                }
+            },
+            {
+                xtype: "tabpanel",
+                flex: 3
+            }
+        ]
+    });
 });
