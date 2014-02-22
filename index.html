@@ -7,6 +7,7 @@
 <body>
     <script src="jquery/jquery-2.1.0.min.js"></script>
     <script src="main.js"></script>
+    <script src="algotest.js"></script>
     <div id="bigwrapper">
         <div id="leftbar">
             <div id="name">
@@ -19,9 +20,10 @@
 
         <div id="topbar">
             <button type="button" id="generate" onClick="alert('Generating awesome flow');">Generate Flow</button>
-            <button type="button" id="compile" onClick="alert('Compiling awesome flow');">Compile Flow</button>
+            <button type="button" id="compile" onClick="convert(nodes, connections)">Compile Flow</button>
             <button type="button" id="display" onClick="displayNodes()">Print nodes</button>
-            <button type="button" id="toggle" onClick="toggleNode()">Toggle</button>            
+            <button type="button" id="toggle" onClick="toggleNode()">Toggle</button>           
+
         </div>
 
         <!-- Display area for the graph -->
