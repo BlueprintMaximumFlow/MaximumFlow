@@ -12,16 +12,33 @@ data info;
 class operation{
    public:
       void height(void){
-           int i,j,k,min;
-           info.label[info.num]=0;
-           for (i=info.num-1;i>=1;i--){
-               min=999999;
-               for (j=info.num;j>=i+1;j--){
-                   if (info.label[j]+1<min){
-                       min=info.label[j]+1;
-                   }
-               }
-               info.label[i]=min;
+          int p1,p2,count,temp,layer;
+           int conflict[info.num];
+           for (int i=1;i<info.num;i++){
+               conflict[i]=0;
+           }
+           count=0;
+           p1=0;
+           p2=0;
+           layer=0;
+           int q[999];
+           q[0]=info.num;
+           while (count<info.num-1){
+                 layer=layer+1;
+                 temp=0;
+                 for (int i=p1;i<=p2;i++){
+                     for (int j=1;j<info.num;j++){
+                         if ((info.rest[j][q[i]]>0)&&(conflict[j]==0)){
+                             count=count+1;
+                             temp=temp+1;
+                             q[p2+temp]=j;
+                             info.label[j]=layer;
+                             conflict[j]=1;
+                         }
+                     }
+                 }
+                 p1=p2+1;
+                 p2=p2+temp;
            }
       } 
       void init(void){
@@ -68,16 +85,7 @@ class operation{
       }
 
       void relabel(int act){
-           int i,j,min;
-           min=999999;
-           for (i=1;i<=info.num;i++){
-               if (info.rest[act][i]>0){
-                   if (info.label[i]<min){
-                       min=info.label[i];
-                   }
-               }
-           }
-           info.label[act]=min+1;
+           info.label[act]+=1;
       }
 
        void push(int start,int end){
@@ -161,5 +169,6 @@ int main(){
            cout<<endl; 
        }
        cout<<endl<<"The maximum flow in this network is "<<info.inflow[info.num]<<endl<<endl;
+       system("pause");
        return 0;
 } 
