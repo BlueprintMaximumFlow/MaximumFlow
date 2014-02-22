@@ -1,17 +1,44 @@
-#leftbar {
-    width: 200px;
-    height: 500px;
+#bigwrapper {
+    height: 640px;
+    width: 720px;
     border: 1px solid black;
+    float: left;
+    position: relative;
+}
+
+#leftbar {
+    height: 640px;
+    width: 100px;
+    border: 1px solid black;
+    position: absolute;
+    left: -1px;
+    top: -1px;
 }
 
 #topbar {
-    width: 500px;
-    height: 200px;
+    height: 100px;
+    width: 619px;
     border: 1px solid black;
+    position: absolute;
+    right: -1px;
+    top: -1px;
 }
 
 #graph {
-    width: 500px;
-    height: 300px;
+    height: 539px;
+    width: 619px;
     border: 1px solid black;
+    float: right;
+    top: 100px;
+    left: 100px;
+    position: absolute;
+}
+
+#name {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    position: absolute;
+    top: -1px;
+    left: -1px;
 }
