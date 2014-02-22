@@ -16,13 +16,19 @@
 
     <script>
         var count = 0; 
-        var nodes = []
+        var nodes = [];
+	   var node = true;
+	   var trial = true; 
+	   var index = 0;
+	   var index2 = 0;
 
         jQuery(document).ready(function() {
             $("#special").attr("height", $("#special").css("height"));
             $("#special").attr("width", $("#special").css("width"));
 
             $("#special").click(function(e) {
+			 
+			if(node == true){
                 var x = e.pageX - this.offsetLeft;
                 var y = e.pageY - this.offsetTop;
 
@@ -30,22 +36,68 @@
                 ctx.beginPath();
                 ctx.arc(x, y, 10, 0, 2 * Math.PI);
                 ctx.stroke();
-                count += 1;
                 nodes.push({x: x, y: y, count: count});
+                count += 1;
 
                 $("#status2").html(x + ", " + y);
+			}
+			if(node == false){
+				if(trial == true){
+				var x = e.pageX - this.offsetLeft;
+                	var y = e.pageY - this.offsetTop;
+				var minDist = 100000; 
+ 
+				for(var i = 0; i < nodes.length; i++){
+					
+				    if(calculateDist(i, x, y) <= minDist){
+				    	minDist = calculateDist(i,x,y); 
+					console.log(i); 
+					index = i; //line 53 
+					}
+					console.log(minDist);
+				}
+				trial = !trial;
+				}else{
+				var x = e.pageX - this.offsetLeft;
+                	var y = e.pageY - this.offsetTop;
+				var minDist = 100000; 
+				 
+				for(var i = 0; i < nodes.length; i++){
+					
+				    if(calculateDist(i, x, y) <= minDist){
+				    	minDist = calculateDist(i,x,y); 
+					index2 = i; 
+					}
+					console.log(minDist);
+				}
+				trial = !trial; 
+				}
+				if(index != index2 && trial){
+					console.log("Going to draw a line");
+					console.log(nodes[index].x + " " + nodes[index].y);
+					console.log(nodes[index2].x + " " + nodes[index2].y);
+				}
+
+			}
             })
         });
 
         function displayNodes() {
-            for (var i = 0; i < nodes.length; i++) {
-                console.log(nodes[i])
-            }
+                console.log(nodes);
         }
+
+	   function calculateDist(i,x,y){
+		return Math.sqrt((nodes[i].x-x)*(nodes[i].x-x)+				(nodes[i].y-y)*(nodes[i].y-y));
+	   }
+	   function toggleNode(){
+		node = !node; 
+	   }
+
     </script>
 
     <h2 id="status2">0, 0</h2>
     <button type="button" onClick="displayNodes()">Print nodes in console</button>
+    <button type="button" onClick="toggleNode()">Toggle Nodes</button>
     <canvas id="special">Not supported</canvas>
 </body>
 </html>
