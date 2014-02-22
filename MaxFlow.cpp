@@ -17,7 +17,7 @@ class operation{
            for (i=info.num-1;i>=1;i--){
                min=999999;
                for (j=info.num;j>=i+1;j--){
-                   if ((info.step[j][i]>0)&&(info.label[j]+1<min)){
+                   if (info.label[j]+1<min){
                        min=info.label[j]+1;
                    }
                }
@@ -125,7 +125,6 @@ int main(){
            info.inflow[i]=0;
            for (j=1;j<=info.num;j++){
                cin>>info.cap[i][j];
-               info.step[i][j]=info.cap[j][i];
                info.rest[i][j]=info.cap[i][j];
            }
        }
