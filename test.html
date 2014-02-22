@@ -76,6 +76,11 @@
 					console.log("Going to draw a line");
 					console.log(nodes[index].x + " " + nodes[index].y);
 					console.log(nodes[index2].x + " " + nodes[index2].y);
+				var c = document.getElementById	("special");
+		var ctx = c.getContext("2d");
+		ctx.moveTo(nodes[index].x,nodes[index].y);
+		ctx.lineTo(nodes[index2].x,nodes[index2].y);
+		ctx.stroke();
 				}
 
 			}
