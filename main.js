@@ -76,13 +76,21 @@ jQuery(document).ready(function() {
                 ctx.lineTo(nodes[node2Index].x, nodes[node2Index].y);
                 ctx.stroke();
                 var capacity = prompt("Capacity: ");
+                connections.push({start: nodes[node1Index], end: nodes[node2Index], capacity: capacity});
             }
         }
     });
 });
 
 function displayNodes() {
-    console.log(nodes);
+    console.log("nodes: ");
+    for (var i = 0; i < nodes.length; i++) {
+        console.log(nodes[i]);
+    }
+    console.log("connections: ");
+    for (var i = 0; i < connections.length; i++) {
+        console.log(connections[i]);
+    }
 }
 
 // calculate distance between click and point
