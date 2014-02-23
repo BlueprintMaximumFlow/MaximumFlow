@@ -25,6 +25,7 @@ function convert(nodes, connections) {
 	console.log(x);
 
 	var cap = x;	
+	console.log("cap legth is: " + cap.length);
 /////////////////////////////////////////////////////////////////////////
 
 	// convert Kevin's art
@@ -40,9 +41,10 @@ function convert(nodes, connections) {
 	for (var i = 0; i < cap.length; i++) {
 
 		info.rest[i] = new Array(info.rest.length);
-		info.active[i] = new Array(info.active.length);
-		info.label[i] = new Array(info.label.length);
-		info.inflow[i] = new Array(info.inflow.length);
+		info.label[i]= 0;
+		info.inflow[i]= 0;
+		info.active[i] = 0;
+
 		for(var j = 0; j < cap.length; j++){
 			info.rest[i][j] = cap[i][j];
 		}
@@ -55,23 +57,24 @@ function convert(nodes, connections) {
 	var method = {
 		height: function() {
 			var p1, p2, count, temp, layer;
-			var conflict = new Array(cap.length);
-			for (var i = 1; i < cap.length; i++) {
+			var conflict = new Array(cap.length-1);
+			for (var i = 1; i < cap.length-1; i++) {
 				conflict[i] = 0;
 			}
 			count = 0;
 			p1 = 0;
 			p2 = 0;
 			layer = 0;
-			var q = new Array(10);
-			q[0] = cap.length;
+			var q = new Array(20);
+			q[0] = cap.length-1;
 			console.log("entering loop");
 			while (count < cap.length - 2) {
-				console.log("count is"+ count);
+				//console.log("count is"+ count);
 				layer = layer + 1;
 				temp = 0;
 				for (var i = p1; i <= p2; i++) {
-					for (var j = 1; j < cap.length; j++) {
+					for (var j = 1; j < cap.length-1; j++) {
+						
 						if ((info.rest[j][q[i]] > 0) && (conflict[j] == 0)) {
 							count = count + 1;
 							temp = temp + 1;
@@ -87,8 +90,7 @@ function convert(nodes, connections) {
 		},
 
 		init: function() {
-			var i, j;
-			for (var i = 1; j <= cap.length; i++) {
+			for (var i = 1; i <= cap.length-1; i++) {
 				if (cap[1][i] > 0) {
 					info.rest[i][1] = cap[1][i];
 					info.rest[1][i] = 0;
@@ -96,12 +98,12 @@ function convert(nodes, connections) {
 					info.active[i] = 1;
 				}
 			}
-			info.label[1] = cap.length;
+			info.label[1] = cap.length-1;
 		},
 
 		judgerelabel: function(act) {
 			var i; 
-			for (i = 1; i <= cap.length; i++) {
+			for (i = 1; i <= cap.length-1; i++) {
 				if (info.rest[act][i] > 0) {
 					return true;
 				}
@@ -110,8 +112,8 @@ function convert(nodes, connections) {
 		},
 
 		refreshVoid: function() {
-			var i, j;
-			for (i = 1; i <= cap.length; i++) {
+			var i;
+			for (i = 1; i <= cap.length-1; i++) {
 				if (info.inflow[i] > 0) {
 					info.active[i] = 1;
 				} else {
@@ -133,29 +135,29 @@ function convert(nodes, connections) {
 		},
 
 		push: function(start, end) {
-			var i, j, k;
+			var k;
 			k = info.inflow[start];
 			if (k > info.rest[start][end]) {
-				info.inflow[start]=k-info.rest[start][end];
-				info.inflow[end]+=info.rest[start][end];
-				info.rest[end][start]=cap[start][end];
+				info.inflow[start] = k- +info.rest[start][end];
+				info.inflow[end] += +info.rest[start][end];
+				info.rest[end][start]=+cap[start][end];
 				info.rest[start][end]=0;
-				refresh(start);
-				refresh(end);
+				method.refresh(start);
+				method.refresh(end);
 			} else {
 				info.inflow[start]=0;
 				info.inflow[end]+=k;
 				info.rest[end][start]+=k;
 				info.rest[start][end]-=k;
-				refresh(start);
-				refresh(end);
+				method.refresh(start);
+				method.refresh(end);
 			}
 		},
 
 		judge: function() {
 			console.log("judge() called");
-			var i;
-			for (i = 2; i < cap.length - 1; i++) {
+			for ( i = 2; i <= cap.length - 2; i++) {
+				console.log(+ info.active[i]);
 				if (info.active[i] == 1) {
 					return true;
 				}
@@ -167,8 +169,6 @@ function convert(nodes, connections) {
 	console.log("Reached equivalent to main method");
 
 	var i, j;
-	cap.length = nodes.length;
-	console.log("node length: " + nodes.length);
 
 	for (i = 1; i < cap.length; i++) {
 		info.active[i] = 0;
@@ -186,19 +186,23 @@ function convert(nodes, connections) {
 	method.init();
 	console.log("about to judge");
 
-
+	console.log(method.judge());
 	while(method.judge()) {
+		console.log("ran push");
 		for (i = 2; i <= cap.length - 2; i++) {
 			while (info.active[i] == 1) {
 				for (j = 1; j <= cap.length-1; j++) {
+					console.log("ran push");
 					if (info.label[i] == info.label[j] + 1) {
+						console.log("ran push");
 						if (info.rest[i][j] > 0) {
+							console.log("ran push");
 							method.push(i, j);
 						}
 					}
 					console.log("loop");
 				}
-				if ((info.inflow[i] > 0) && method.judgerelabel(i)) {
+				if ((info.inflow[i] > 0) && (method.judgerelabel(i))) {
 					method.relabel(i);
 				}
 				method.refresh(i);
@@ -207,12 +211,9 @@ function convert(nodes, connections) {
 		method.refreshVoid();
 	}
 	console.log("Output matrix: " + info.rest);
-	var tot = 0; 
-	for(var i = 1; i < info.rest.length; i++){
-		tot = tot+ +(info.rest[1][i]);
-
-		}
+	tot= +info.inflow[cap.length-1];
 	console.log("The optimal flow is: "+ tot);
+	alert("The optimal flow is: " + tot);
 	
 
 }
