@@ -65,7 +65,10 @@ function convert(nodes, connections) {
 			p1 = 0;
 			p2 = 0;
 			layer = 0;
-			var q = new Array(20);
+			var q = new Array(999);
+			for  (var i=0;i<999;i++){
+				q[i]=0;
+			}
 			q[0] = cap.length-1;
 			console.log("entering loop");
 			while (count < cap.length - 2) {
@@ -138,17 +141,17 @@ function convert(nodes, connections) {
 			var k;
 			k = info.inflow[start];
 			if (k > info.rest[start][end]) {
-				info.inflow[start] = k- +info.rest[start][end];
-				info.inflow[end] += +info.rest[start][end];
-				info.rest[end][start]=+cap[start][end];
+				info.inflow[start] = k - +info.rest[start][end];
+				info.inflow[end] = info.inflow[end] + +info.rest[start][end];
+				info.rest[end][start]=info.rest[end][start] + +cap[start][end];
 				info.rest[start][end]=0;
 				method.refresh(start);
 				method.refresh(end);
 			} else {
 				info.inflow[start]=0;
-				info.inflow[end]+=k;
-				info.rest[end][start]+=k;
-				info.rest[start][end]-=k;
+				info.inflow[end]=info.inflow[end] + k;
+				info.rest[end][start]=info.rest[end][start] + k;
+				info.rest[start][end]=info.rest[start][end] - k;
 				method.refresh(start);
 				method.refresh(end);
 			}
@@ -210,8 +213,9 @@ function convert(nodes, connections) {
 		}
 		method.refreshVoid();
 	}
+	var tot = 0; 
 	console.log("Output matrix: " + info.rest);
-	tot= +info.inflow[cap.length-1];
+	tot= info.inflow[cap.length-1];
 	console.log("The optimal flow is: "+ tot);
 	alert("The optimal flow is: " + tot);
 	
